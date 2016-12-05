@@ -5,16 +5,19 @@ console.log('start jq');
 
 // pushing student data from JSON object into an array that I can manipulate.
 var studentArray = [];
+var studentIndex = 0;
 
 var displayOnDom = function(){
+    console.log('in displayOnDom');
     console.log( 'studentArray', studentArray );
-    // loop through cars and update outputText
+    // loop through students and update outputText
     var outputText = '';
     for (var i = 0; i < studentArray.length; i++) {
       outputText += '<p>' + studentArray[i].first_name + ' ' + studentArray[i].last_name + ' ' + studentArray[i].info + '</p>';
-      outputText += '<img src="' + studentArray[i].picURL + '" />';
+      outputText += '<img src="' + studentArray[i].picUrl + '" />';
 }
-};
+ $( '#outputDiv' ).html( outputText );};
+
 var ajaxInfo = function(){
   console.log('in ajaxInfo');
   $.ajax({
@@ -26,10 +29,16 @@ var ajaxInfo = function(){
         for (var i = 0; i < data.tau.length; i++) {
           studentArray.push(data.tau[i]);
         }
+        displayOnDom();
       } // end console.log
     }); // end ajax call
   }; // end ajaxInfo function
-  displayOnDom();
   ajaxInfo();
-  console.log(studentArray);
+
+  $('#nextButton').on('click', function() {
+          i = i + 1;
+          i = i % data.tau.length;
+          outputText();
+      });
+
 }); // end document.ready
